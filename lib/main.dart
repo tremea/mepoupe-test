@@ -11,8 +11,9 @@ import 'app/app_widget.dart';
 
 Future<void> main()   async {
   await Hive.initFlutter();
-//   await Hive.box('favoritos').deleteFromDisk();
+
   var box = await Hive.openBox('favoritos');
+  await Hive.openBox('pesquisados');
 
 
       runApp(ModularApp(module: AppModule(), child: AppWidget()));

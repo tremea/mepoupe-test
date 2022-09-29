@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mepoupe_test/app/modules/home/widgets/widget_title.dart';
+import 'package:mepoupe_test/app/app_colors.dart';
+import '../home_store.dart';
 
 class InicioPage extends StatefulWidget {
   const InicioPage({Key? key}) : super(key: key);
@@ -8,7 +11,10 @@ class InicioPage extends StatefulWidget {
   State<InicioPage> createState() => _InicioPageState();
 }
 
+
 class _InicioPageState extends State<InicioPage> {
+  final HomeStore store = Modular.get();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -42,17 +48,17 @@ class _InicioPageState extends State<InicioPage> {
               Center(
                 child: Image.asset(
                   'assets/images/cep.png',
-                  height: MediaQuery.of(context).size.height / 3,
+                  height: MediaQuery.of(context).size.height / 3.6,
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 30,
               ),
               Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.all(70),
                 decoration: const BoxDecoration(
-                  color: Colors.blue,
+                  color: AppColors.defaultBlue,
                   shape: BoxShape.circle,
                 ),
                 child: Column(
@@ -62,19 +68,21 @@ class _InicioPageState extends State<InicioPage> {
                     Container(
                       child: Icon(
                         Icons.pin_drop,
-                        size: 60,
+                        size: 50,
                         color: Colors.grey[200],
                       ),
                     ),
+                    SizedBox(height: 10,),
                     wTitle(
-                      texto: "525",
-                      tamanho: 50,
+                      texto: store.getqtdPesquisado().toString(),
+                      tamanho: 30,
                       negrito: true,
                       cor: Colors.white,
                     ),
+                    SizedBox(height: 10,),
                     wTitle(
                       texto: "CEPs pesquisados",
-                      tamanho: 30,
+                      tamanho: 20,
                       negrito: false,
                       cor: Colors.white,
                     ),
@@ -104,7 +112,7 @@ class _InicioPageState extends State<InicioPage> {
                       child: Icon(
                         Icons.save_rounded,
                         size: 20,
-                        color: Colors.blue,
+                        color: AppColors.defaultBlue,
                       ),
                     ),
                     Expanded(child:   Container(
@@ -113,17 +121,17 @@ class _InicioPageState extends State<InicioPage> {
                         texto: "CEPs salvos",
                         tamanho: 16,
                         negrito: true,
-                        cor: Colors.blue,
+                        cor: AppColors.defaultBlue,
                       ),
                     ),),
                     Container(
                       alignment: Alignment.center,
                       padding: EdgeInsets.all(10),
                       decoration: const BoxDecoration(
-                        color: Colors.blue,
+                        color: AppColors.defaultBlue,
                         shape: BoxShape.circle,
                       ),
-                      child: Text('1', style: TextStyle(color: Colors.white),),
+                      child: Text(store.getQtdFavoritos().toString(), style: TextStyle(color: Colors.white),),
                     ),
                   ],
                 ),

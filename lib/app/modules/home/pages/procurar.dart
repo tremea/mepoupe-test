@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mepoupe_test/app/app_colors.dart';
 
 import 'package:mepoupe_test/app/modules/home/home_store.dart';
 import 'package:mepoupe_test/app/modules/home/models/local_storage_favorito.dart';
@@ -28,43 +29,28 @@ class ProcurarPage extends StatefulWidget {
 class _ProcurarPageState extends State<ProcurarPage> {
   TextEditingController controller = TextEditingController();
 
-
-
   @override
   void initState() {
     super.initState();
   }
 
-  /*final db = Hive.box('favoritos');
-
-
-  void addItem(String cep, Address endereco){
-      db.put(cep, endereco.toJson());
-  }
-
-  void getItem(){
-
-    print('>> ${Hive.box('favoritos').listenable()}');
-
-  }
-*/
   TextEditingController searchController = TextEditingController();
 
   late final HomeStore store = Modular.get();
+  bool btHabilitado = true;
 
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
       return SingleChildScrollView(
-
           child: Container(
-          child: Column(
+              child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
               padding: EdgeInsets.only(top: 100, left: 30, right: 30),
-              color: Colors.blue,
+              color: AppColors.defaultBlue,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +85,7 @@ class _ProcurarPageState extends State<ProcurarPage> {
                         borderRadius: BorderRadius.circular(30)),
                     child: TextFormField(
                       keyboardType: TextInputType.number,
-                      //mask: 'xxxxxxxx',
+                      enabled: btHabilitado,
                       controller: searchController,
                       maxLength: 8,
                       //inputFormatters: [],
@@ -113,10 +99,9 @@ class _ProcurarPageState extends State<ProcurarPage> {
                       ),
                       onChanged: (String value) {
                         if (searchController.text.length == 8) {
-                          log('BUSCANDOOOO');
-                          //store.isLoading = true;
                           String cep = searchController.text;
                           store.getEndereco(cep);
+                          store.addPesquisado(cep);
                         }
                       },
                     ),
@@ -126,89 +111,106 @@ class _ProcurarPageState extends State<ProcurarPage> {
                   ),
                 ],
               )),
-          store.endereco == null
+          store.endereco == null //|| store.endereco!.cep == null
               ? Container()
               : store.isLoading
-                  ? Center(
-            child: CircularProgressIndicator(color: Colors.blue),
-          )
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(left: 30, top: 120),
-                          child: wTitle(
-                              texto: 'Endereço:',
-                              negrito: true,
-                              tamanho: 30,
-                              cor: Colors.blue),
-                        ),
-                        Container(
-                          padding:
-                              EdgeInsets.only(left: 30, top: 10, right: 30),
-                          alignment: Alignment.center,
-                          child: wTitle(
-                              texto: store.endereco!.logradouro.toString() +
-                                  ' - ' +
-                                  store.endereco!.localidade.toString() +
-                                  ' - ' +
-                                  store.endereco!.uf.toString() +
-                                  ' - ' +
-                                  store.endereco!.cep.toString(),
-                              negrito: false,
-                              tamanho: 20,
-                              cor: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 30, right: 30),
-                          child: ElevatedButton(
-                              onPressed: () {
-
-                                store.addItem(store.endereco!.cep.toString(), store.endereco!);
-                                store.getItem();
-
-                              },
-                              style: ButtonStyle(
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(25.0),
-                                          side:
-                                              BorderSide(color: Colors.blue)))),
-                              child: Container(
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.only(
-                                    left: 10, right: 20, top: 10, bottom: 10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: const [
-                                    Icon(Icons.favorite_border),
-                                    SizedBox(
-                                      width: 20,
+                  ? Container(
+                      padding: EdgeInsets.only(top: 80),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                            color: AppColors.defaultBlue),
+                      ))
+                  : store.endereco!.cep == null
+                      ? Container(
+                          padding: EdgeInsets.only(top: 80),
+                          child: Center(
+                              child: wTitle(
+                                  texto: 'CEP não existe',
+                                  negrito: true,
+                                  tamanho: 20,
+                                  cor: AppColors.defaultBlue)))
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(left: 30, top: 120),
+                              child: wTitle(
+                                  texto: 'Endereço:',
+                                  negrito: true,
+                                  tamanho: 30,
+                                  cor: AppColors.defaultBlue),
+                            ),
+                            Container(
+                              padding:
+                                  EdgeInsets.only(left: 30, top: 10, right: 30),
+                              alignment: Alignment.center,
+                              child: wTitle(
+                                  texto: store.endereco!.logradouro.toString() +
+                                      ' - ' +
+                                      store.endereco!.localidade.toString() +
+                                      ' - ' +
+                                      store.endereco!.uf.toString() +
+                                      ' - ' +
+                                      store.endereco!.cep.toString(),
+                                  negrito: false,
+                                  tamanho: 20,
+                                  cor: Colors.black),
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left: 30, right: 30),
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    store.addItem(
+                                        store.endereco!.cep.toString(),
+                                        store.endereco!);
+                                    store.getItem();
+                                  },
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStatePropertyAll<Color>(
+                                              AppColors.defaultBlue),
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(25.0),
+                                              side: BorderSide(
+                                                  style: BorderStyle.solid,
+                                                  color:
+                                                      AppColors.defaultBlue)))),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    color: AppColors.defaultBlue,
+                                    padding: EdgeInsets.only(
+                                        left: 10,
+                                        right: 20,
+                                        top: 10,
+                                        bottom: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: const [
+                                        Icon(Icons.favorite_border),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Flexible(child: wTitle(
+                                            texto: 'Adicionar aos Favoritos',
+                                            negrito: false,
+                                            tamanho: 20,
+                                            cor: Colors.white),)
+                                      ],
                                     ),
-                                    wTitle(
-                                        texto: 'Adicionar aos Favoritos',
-                                        negrito: false,
-                                        tamanho: 20,
-                                        cor: Colors.white),
-                                  ],
-                                ),
-                              )),
+                                  )),
+                            ),
+                          ],
                         ),
-
-
-
-
-
-
-                      ],
-                    ),
 
           /*wCardFavorito(
                   cep: store.endereco!.cep.toString(),

@@ -23,7 +23,7 @@ class wTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(texto, style: TextStyle(color: cor, fontWeight: negrito ? FontWeight.bold : FontWeight.normal, fontSize: tamanho),)
+      child: Text(texto, style: TextStyle(color: cor, fontWeight: negrito ? FontWeight.bold : FontWeight.normal, fontSize: tamanho, fontFamily: 'MavenPro',),)
     );
   }
 }

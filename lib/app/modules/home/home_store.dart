@@ -44,6 +44,8 @@ abstract class _HomeStoreBase with Store {
     }
 
   final db = Hive.box('favoritos');
+  final cepPesquisado = Hive.box('pesquisados');
+
   void addItem(String cep, Address endereco){
     db.put(cep, endereco.toJson());
   }
@@ -55,9 +57,33 @@ abstract class _HomeStoreBase with Store {
     db.delete(cep);
   }
 
+  int getQtdFavoritos(){
+
+    return Hive.box('favoritos').length;
+
+
+  }
+
+  @observable
+  int? qtdPesquisado;
+
+  int? getqtdPesquisado(){
+
+    return Hive.box('pesquisados').length;
+  }
+
+
+
+  void addPesquisado(String cep){
+    String x = DateTime.now().microsecondsSinceEpoch.toString();
+    cepPesquisado.put(x, cep);
+  }
+
   void getItem(){
+
     listaFavoritos = Hive.box('favoritos').listenable();
     //box.values.toList().cast();
+    Hive.box('favoritos').length;
     print('>> ${Hive.box('favoritos').listenable()}');
 
   }

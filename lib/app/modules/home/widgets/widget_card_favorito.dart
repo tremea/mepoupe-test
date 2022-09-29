@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mepoupe_test/app/modules/home/models/endereco.dart';
 
 import '../home_store.dart';
@@ -9,14 +12,15 @@ class wCardFavorito extends StatelessWidget {
    wCardFavorito({
     Key? key,
 
-    required this.favoritos, required this.onTapDelete,
+    required this.favoritos,
   }) : super(key: key);
+
+  late final HomeStore store = Modular.get();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: MediaQuery.of(context).size.width,
-        child:
+
+    return
         ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
@@ -46,7 +50,12 @@ class wCardFavorito extends StatelessWidget {
                 ),
                 trailing: GestureDetector(
                   child: Icon(Icons.remove_circle),
-                  onTap: onTapDelete()
+                  onTap: (){
+
+
+                store.removeItem(favoritos[index]['cep']);
+
+                  }
                 ),
               ),
             );
@@ -54,6 +63,6 @@ class wCardFavorito extends StatelessWidget {
         )
 
 
-     );
+     ;
   }
 }

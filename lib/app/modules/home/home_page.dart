@@ -2,6 +2,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mepoupe_test/app//modules/home/home_store.dart';
 import 'package:flutter/material.dart';
+import 'package:mepoupe_test/app/app_colors.dart';
 import 'package:mepoupe_test/app/modules/home/pages/favoritos.dart';
 import 'package:mepoupe_test/app/modules/home/pages/inicio.dart';
 import 'package:mepoupe_test/app/modules/home/pages/procurar.dart';
@@ -44,6 +45,7 @@ class HomePageState extends State<HomePage> {
               // ignore: prefer_const_literals_to_create_immutables
               items: <BottomNavigationBarItem>[
                 const BottomNavigationBarItem(
+
                   icon: Icon(Icons.home_filled),
                   label: 'Home',
                 ),
@@ -57,7 +59,7 @@ class HomePageState extends State<HomePage> {
                 ),
               ],
               currentIndex: store.selectedIndex,
-              selectedItemColor: Colors.blue,
+              selectedItemColor: AppColors.defaultBlue,
               onTap: (int index) {
 
                   store.setIndex(index);
