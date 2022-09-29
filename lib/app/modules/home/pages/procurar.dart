@@ -3,7 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:mepoupe_test/app/modules/home/home_store.dart';
+import 'package:mepoupe_test/app/modules/home/models/local_storage_favorito.dart';
 import 'package:mepoupe_test/app/modules/home/widgets/widget_card_favorito.dart';
 import 'package:masked_text_field/masked_text_field.dart';
 
@@ -22,6 +26,28 @@ class ProcurarPage extends StatefulWidget {
 }
 
 class _ProcurarPageState extends State<ProcurarPage> {
+  TextEditingController controller = TextEditingController();
+
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  /*final db = Hive.box('favoritos');
+
+
+  void addItem(String cep, Address endereco){
+      db.put(cep, endereco.toJson());
+  }
+
+  void getItem(){
+
+    print('>> ${Hive.box('favoritos').listenable()}');
+
+  }
+*/
   TextEditingController searchController = TextEditingController();
 
   late final HomeStore store = Modular.get();
@@ -98,28 +124,97 @@ class _ProcurarPageState extends State<ProcurarPage> {
                   ),
                 ],
               )),
-          Container(
-            padding: EdgeInsets.only(left: 30, top: 50),
-            child: wTitle(
-                texto: 'Endereço:',
-                negrito: true,
-                tamanho: 30,
-                cor: Colors.blue),
-          ),
           store.endereco == null
               ? Container()
-              : Container(
-            padding: EdgeInsets.only(left: 30, top: 10, right: 30),
-            alignment: Alignment.center,
-            child: wTitle(
-                texto: store.endereco!.logradouro.toString() + ' - ' +
-                    store.endereco!.localidade.toString() + ' - ' +
-                    store.endereco!.uf.toString() + ' - ' +
-                    store.endereco!.cep.toString(),
-                negrito: false,
-                tamanho: 20,
-                cor: Colors.black),
-          ),/*wCardFavorito(
+              : store.isLoading
+                  ? Text("Crregandi,,,")
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(left: 30, top: 120),
+                          child: wTitle(
+                              texto: 'Endereço:',
+                              negrito: true,
+                              tamanho: 30,
+                              cor: Colors.blue),
+                        ),
+                        Container(
+                          padding:
+                              EdgeInsets.only(left: 30, top: 10, right: 30),
+                          alignment: Alignment.center,
+                          child: wTitle(
+                              texto: store.endereco!.logradouro.toString() +
+                                  ' - ' +
+                                  store.endereco!.localidade.toString() +
+                                  ' - ' +
+                                  store.endereco!.uf.toString() +
+                                  ' - ' +
+                                  store.endereco!.cep.toString(),
+                              negrito: false,
+                              tamanho: 20,
+                              cor: Colors.black),
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 30, right: 30),
+                          child: ElevatedButton(
+                              onPressed: () {
+
+                                store.addItem(store.endereco!.cep.toString(), store.endereco!);
+                                store.getItem();
+
+                              },
+                              style: ButtonStyle(
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
+                                          side:
+                                              BorderSide(color: Colors.blue)))),
+                              child: Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.only(
+                                    left: 10, right: 20, top: 10, bottom: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: const [
+                                    Icon(Icons.favorite_border),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    wTitle(
+                                        texto: 'Adicionar aos Favoritos',
+                                        negrito: false,
+                                        tamanho: 20,
+                                        cor: Colors.white),
+                                  ],
+                                ),
+                              )),
+                        ),
+
+                        ValueListenableBuilder(
+                            valueListenable: Hive.box('favoritos').listenable(),
+                            builder: (context, box, _) {
+                              var todos = box.values.toList().cast();
+
+
+                              return Text(todos.toString());
+                            },
+                          ),
+
+
+
+
+                      ],
+                    ),
+
+          /*wCardFavorito(
                   cep: store.endereco!.cep.toString(),
                   rua: store.endereco!.logradouro.toString(),
                 )*/

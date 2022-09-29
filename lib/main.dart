@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 
 import 'app/app_module.dart';
 import 'app/app_widget.dart';
 
-void main() => runApp(ModularApp(module: AppModule(), child: AppWidget()));
+//await Hive.initFlutter();
+//var box = await Hive.openBox('favoritos');
+
+Future<void> main()   async {
+  await Hive.initFlutter();
+//   await Hive.box('favoritos').deleteFromDisk();
+  var box = await Hive.openBox('favoritos');
+
+
+      runApp(ModularApp(module: AppModule(), child: AppWidget()));
+    }

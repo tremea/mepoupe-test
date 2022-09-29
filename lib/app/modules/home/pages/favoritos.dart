@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:mepoupe_test/app/modules/home/widgets/widget_card_favorito.dart';
 
+import '../home_store.dart';
 import '../widgets/widget_title.dart';
 class FavoritosPage extends StatefulWidget {
   const FavoritosPage({Key? key}) : super(key: key);
@@ -10,6 +14,13 @@ class FavoritosPage extends StatefulWidget {
 }
 
 class _FavoritosPageState extends State<FavoritosPage> {
+
+  late final HomeStore store = Modular.get();
+  @override
+  void initState() {
+    store.getItem();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,11 +49,23 @@ class _FavoritosPageState extends State<FavoritosPage> {
 
             SizedBox(height: 20,),
 
-            const wCardFavorito(
-              cep: "88080-145",
-              rua: "Rua João Teste ",
 
-            )
+            ValueListenableBuilder(
+              valueListenable: Hive.box('favoritos').listenable(),
+
+
+              builder: (context, box, _) {
+                var todos = box.values.toList().cast();
+
+
+                return wCardFavorito(favoritos: todos,);
+              },
+
+            ),
+
+
+
+
 
           ],
         ));

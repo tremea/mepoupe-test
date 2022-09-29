@@ -1,6 +1,9 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:mepoupe_test/app/modules/home/repository/home_interface.dart';
 import 'package:mepoupe_test/app/modules/home/repository/home_repository.dart';
 import 'package:mobx/mobx.dart';
@@ -40,6 +43,22 @@ abstract class _HomeStoreBase with Store {
       isLoading = false;
     }
 
+  final db = Hive.box('favoritos');
+  void addItem(String cep, Address endereco){
+    db.put(cep, endereco.toJson());
+  }
+
+  @observable
+  ValueListenable? listaFavoritos;
+
+
+
+  void getItem(){
+    listaFavoritos = Hive.box('favoritos').listenable();
+    //box.values.toList().cast();
+    print('>> ${Hive.box('favoritos').listenable()}');
+
+  }
 
 
 }
