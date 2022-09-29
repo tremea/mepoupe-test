@@ -55,7 +55,9 @@ class _ProcurarPageState extends State<ProcurarPage> {
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
-      return Container(
+      return SingleChildScrollView(
+
+          child: Container(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +129,9 @@ class _ProcurarPageState extends State<ProcurarPage> {
           store.endereco == null
               ? Container()
               : store.isLoading
-                  ? Text("Crregandi,,,")
+                  ? Center(
+            child: CircularProgressIndicator(color: Colors.blue),
+          )
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,15 +202,7 @@ class _ProcurarPageState extends State<ProcurarPage> {
                               )),
                         ),
 
-                        ValueListenableBuilder(
-                            valueListenable: Hive.box('favoritos').listenable(),
-                            builder: (context, box, _) {
-                              var todos = box.values.toList().cast();
 
-
-                              return Text(todos.toString());
-                            },
-                          ),
 
 
 
@@ -219,7 +215,7 @@ class _ProcurarPageState extends State<ProcurarPage> {
                   rua: store.endereco!.logradouro.toString(),
                 )*/
         ],
-      ));
+      )));
     });
   }
 }

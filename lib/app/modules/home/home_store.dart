@@ -51,7 +51,9 @@ abstract class _HomeStoreBase with Store {
   @observable
   ValueListenable? listaFavoritos;
 
-
+  void removeItem(String cep){
+    db.delete(cep);
+  }
 
   void getItem(){
     listaFavoritos = Hive.box('favoritos').listenable();

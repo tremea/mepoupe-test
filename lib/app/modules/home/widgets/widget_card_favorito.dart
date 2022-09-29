@@ -6,10 +6,10 @@ import '../home_store.dart';
 class wCardFavorito extends StatelessWidget {
   final List<dynamic> favoritos;
 
-  const wCardFavorito({
+   wCardFavorito({
     Key? key,
 
-    required this.favoritos,
+    required this.favoritos, required this.onTapDelete,
   }) : super(key: key);
 
   @override
@@ -18,6 +18,7 @@ class wCardFavorito extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child:
         ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: favoritos.length,
           itemBuilder: (BuildContext context, int index) {
@@ -45,6 +46,7 @@ class wCardFavorito extends StatelessWidget {
                 ),
                 trailing: GestureDetector(
                   child: Icon(Icons.remove_circle),
+                  onTap: onTapDelete()
                 ),
               ),
             );

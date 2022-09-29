@@ -16,6 +16,7 @@ class FavoritosPage extends StatefulWidget {
 class _FavoritosPageState extends State<FavoritosPage> {
 
   late final HomeStore store = Modular.get();
+
   @override
   void initState() {
     store.getItem();
@@ -23,7 +24,12 @@ class _FavoritosPageState extends State<FavoritosPage> {
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return
+
+      SingleChildScrollView(
+
+        child:
+        Container(
       padding: EdgeInsets.only(top: 80, left: 30, right: 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -68,6 +74,6 @@ class _FavoritosPageState extends State<FavoritosPage> {
 
 
           ],
-        ));
+        )));
   }
 }
