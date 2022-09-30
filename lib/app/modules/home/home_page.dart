@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   final HomeStore store = Modular.get();
 
-  int index = 0;
+  int? index;
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +59,12 @@ class HomePageState extends State<HomePage> {
                 ),
               ],
               currentIndex: store.selectedIndex,
+
               selectedItemColor: AppColors.defaultBlue,
               onTap: (int index) {
 
                   store.setIndex(index);
+
 
 
               },

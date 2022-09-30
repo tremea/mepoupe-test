@@ -19,7 +19,7 @@ abstract class _HomeStoreBase with Store {
   late final HomeRepository _repository = HomeRepository();
 
   @observable
-  int selectedIndex = 0;
+  int? selectedIndex;
 
   @action
   void setIndex(int value) {
@@ -52,10 +52,12 @@ abstract class _HomeStoreBase with Store {
 
   @observable
   ValueListenable? listaFavoritos;
+  ValueListenable? listaPesquisados;
 
   void removeItem(String cep){
     db.delete(cep);
   }
+
 
   int getQtdFavoritos(){
 
@@ -73,10 +75,14 @@ abstract class _HomeStoreBase with Store {
   }
 
 
+  void addPesquisado(Address endereco){
+    log("add pesquisado");
+    cepPesquisado.put(DateTime.now().toString(), endereco.toJson());
+  }
 
-  void addPesquisado(String cep){
-    String x = DateTime.now().microsecondsSinceEpoch.toString();
-    cepPesquisado.put(x, cep);
+
+  void removeItemPesquisado(int index){
+    cepPesquisado.deleteAt(index);
   }
 
   void getItem(){
@@ -85,6 +91,15 @@ abstract class _HomeStoreBase with Store {
     //box.values.toList().cast();
     Hive.box('favoritos').length;
     print('>> ${Hive.box('favoritos').listenable()}');
+
+  }
+
+  void getItemPesquisado(){
+
+    listaPesquisados = Hive.box('pesquisados').listenable();
+
+
+
 
   }
 

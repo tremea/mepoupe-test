@@ -6,21 +6,23 @@ import 'package:mepoupe_test/app/app_colors.dart';
 import 'package:mepoupe_test/app/modules/home/widgets/widget_card_favorito.dart';
 
 import '../home_store.dart';
+import '../widgets/widget_card_historico.dart';
 import '../widgets/widget_title.dart';
 
-class FavoritosPage extends StatefulWidget {
-  const FavoritosPage({Key? key}) : super(key: key);
+class HistoricoPage extends StatefulWidget {
+  const HistoricoPage({Key? key}) : super(key: key);
 
   @override
-  State<FavoritosPage> createState() => _FavoritosPageState();
+  State<HistoricoPage> createState() => _HistoricoPageState();
 }
 
-class _FavoritosPageState extends State<FavoritosPage> {
+class _HistoricoPageState extends State<HistoricoPage> {
   late final HomeStore store = Modular.get();
 
   @override
   void initState() {
-    store.getItem();
+
+    store.getqtdPesquisado();
     super.initState();
   }
 
@@ -38,18 +40,33 @@ class _FavoritosPageState extends State<FavoritosPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                Row(
+                  children: [
                   Icon(
-                    Icons.star_border,
+                    Icons.history,
                     color: AppColors.defaultBlue,
                     size: 60,
                   ),
+                  Expanded(child: Container()),
+                  GestureDetector(
+                    child:   Icon(
+                      Icons.clear,
+                      color: AppColors.defaultBlue,
+                      size: 30,
+                    ),
+                    onTap: (){
+                      Navigator.pop(context);
+                    }
+                  )
+                    ]
+                ),
                   SizedBox(
                     height: 20,
                   ),
                   Container(
                     padding: EdgeInsets.only(left: 0),
                     child: const wTitle(
-                      texto: "Meus favoritos",
+                      texto: "Histórico",
                       tamanho: 30,
                       negrito: true,
                       cor: AppColors.defaultBlue,
@@ -59,12 +76,12 @@ class _FavoritosPageState extends State<FavoritosPage> {
                     height: 10,
                   ),
                   ValueListenableBuilder(
-                    valueListenable: Hive.box('favoritos').listenable(),
+                    valueListenable: Hive.box('pesquisados').listenable(),
                     builder: (context, box, _) {
                       var todos = box.values.toList().cast();
 
-                      return wCardFavorito(
-                        favoritos: todos,
+                      return wCardHistorico(
+                        pesquisados: todos,
                       );
                     },
                   ),

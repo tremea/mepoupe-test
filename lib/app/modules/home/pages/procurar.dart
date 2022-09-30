@@ -97,11 +97,20 @@ class _ProcurarPageState extends State<ProcurarPage> {
                         prefixIcon: Icon(Icons.search, color: Colors.black),
                         border: InputBorder.none,
                       ),
-                      onChanged: (String value) {
+                      onChanged: (String value) async {
                         if (searchController.text.length == 8) {
                           String cep = searchController.text;
-                          store.getEndereco(cep);
-                          store.addPesquisado(cep);
+                          await store.getEndereco(cep);
+
+
+                          if(store.endereco!.cep != null) {
+                            store.addPesquisado(
+                              //store.endereco!.cep.toString(),
+                                store.endereco!);
+                          }
+                          store.getItemPesquisado();
+
+
                         }
                       },
                     ),
@@ -125,7 +134,7 @@ class _ProcurarPageState extends State<ProcurarPage> {
                           padding: EdgeInsets.only(top: 80),
                           child: Center(
                               child: wTitle(
-                                  texto: 'CEP não existe',
+                                  texto: 'Não conseguimos localizar seu endereço, verifique se as informações passadas estão corretas',
                                   negrito: true,
                                   tamanho: 20,
                                   cor: AppColors.defaultBlue)))
@@ -212,10 +221,7 @@ class _ProcurarPageState extends State<ProcurarPage> {
                           ],
                         ),
 
-          /*wCardFavorito(
-                  cep: store.endereco!.cep.toString(),
-                  rua: store.endereco!.logradouro.toString(),
-                )*/
+
         ],
       )));
     });
