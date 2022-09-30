@@ -174,10 +174,44 @@ class _ProcurarPageState extends State<ProcurarPage> {
                               child: ElevatedButton(
                                   onPressed: () {
 
-                                    store.addItem(
-                                        store.endereco!.cep.toString(),
-                                        store.endereco!);
-                                    store.getItem();
+                                    try{
+                                      store.addItem(
+                                          store.endereco!.cep.toString(),
+                                          store.endereco!);
+                                      store.getItem();
+                                      final snackBar = SnackBar(
+                                        backgroundColor: Colors.green,
+                                        duration: const Duration(seconds: 3),
+                                        content: const Text('CEP adicionado aos favoritos'),
+                                        action: SnackBarAction(
+                                          label: '',
+                                          onPressed: () {
+                                            // Some code to undo the change.
+                                          },
+                                        ),
+                                      );
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+
+                                    }catch(
+                                    e
+                                    ){
+
+                                      final snackBar = SnackBar(
+                                        backgroundColor: Colors.red,
+                                        duration: const Duration(seconds: 3),
+                                        content: const Text('Erro ao adicionar CEP aos favoritos'),
+                                        action: SnackBarAction(
+                                          label: '',
+                                          onPressed: () {
+                                            // Some code to undo the change.
+                                          },
+                                        ),
+                                      );
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                    }
+
+
 
 
                                   },
