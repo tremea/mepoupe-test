@@ -55,7 +55,7 @@ class _InicioPageState extends State<InicioPage> {
                       ),
                       Center(
                         child: Image.asset(
-                          'assets/images/cep.png',
+                          'assets/images/capa.png',
                           height: MediaQuery
                               .of(context)
                               .size
@@ -164,15 +164,10 @@ class _InicioPageState extends State<InicioPage> {
                           ),
                         ),
                         onTap: () {
-                          log('set 2');
-                          store.setIndex(2);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const HomePage(
 
-                                ),
-                              ));
+                          store.setIndex(2);
+
+
                         },
                       ),
                       const SizedBox(

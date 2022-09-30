@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mepoupe_test/app//modules/home/home_store.dart';
@@ -19,6 +21,8 @@ class HomePageState extends State<HomePage> {
 
   int? index;
 
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -35,7 +39,7 @@ class HomePageState extends State<HomePage> {
         ),*/
         body: Observer(
           builder: (_) {
-            return _widgetOptions.elementAt(store.selectedIndex);
+            return _widgetOptions.elementAt(store.selectedIndex!);
           },
         ),
         bottomNavigationBar: Observer(
@@ -59,7 +63,6 @@ class HomePageState extends State<HomePage> {
                 ),
               ],
               currentIndex: store.selectedIndex,
-
               selectedItemColor: AppColors.defaultBlue,
               onTap: (int index) {
 

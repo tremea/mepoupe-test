@@ -46,8 +46,8 @@ class wCardHistorico extends StatelessWidget {
                   child: Text(
                     pesquisados[index]['logradouro'].toString() +' - ' +
                         pesquisados[index]['localidade'].toString() + ' - ' +
-                        pesquisados[index]['uf'].toString() +
-                        pesquisados[index]['logradouro'].toString(),
+                        pesquisados[index]['uf'].toString() + ' - ' +
+                        pesquisados[index]['cep'].toString(),
                     style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
                   ),
                 ),
@@ -57,6 +57,7 @@ class wCardHistorico extends StatelessWidget {
 
 
                 store.removeItemPesquisado(index);
+                store.getItemPesquisado();
 
                   }
                 ),

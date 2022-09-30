@@ -19,7 +19,7 @@ abstract class _HomeStoreBase with Store {
   late final HomeRepository _repository = HomeRepository();
 
   @observable
-  int? selectedIndex;
+  int selectedIndex=0;
 
   @action
   void setIndex(int value) {

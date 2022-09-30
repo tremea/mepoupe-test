@@ -57,6 +57,38 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     });
   }
 
+  late final _$listaFavoritosAtom =
+      Atom(name: '_HomeStoreBase.listaFavoritos', context: context);
+
+  @override
+  ValueListenable<dynamic>? get listaFavoritos {
+    _$listaFavoritosAtom.reportRead();
+    return super.listaFavoritos;
+  }
+
+  @override
+  set listaFavoritos(ValueListenable<dynamic>? value) {
+    _$listaFavoritosAtom.reportWrite(value, super.listaFavoritos, () {
+      super.listaFavoritos = value;
+    });
+  }
+
+  late final _$qtdPesquisadoAtom =
+      Atom(name: '_HomeStoreBase.qtdPesquisado', context: context);
+
+  @override
+  int? get qtdPesquisado {
+    _$qtdPesquisadoAtom.reportRead();
+    return super.qtdPesquisado;
+  }
+
+  @override
+  set qtdPesquisado(int? value) {
+    _$qtdPesquisadoAtom.reportWrite(value, super.qtdPesquisado, () {
+      super.qtdPesquisado = value;
+    });
+  }
+
   late final _$getEnderecoAsyncAction =
       AsyncAction('_HomeStoreBase.getEndereco', context: context);
 
@@ -84,7 +116,9 @@ mixin _$HomeStore on _HomeStoreBase, Store {
     return '''
 selectedIndex: ${selectedIndex},
 isLoading: ${isLoading},
-endereco: ${endereco}
+endereco: ${endereco},
+listaFavoritos: ${listaFavoritos},
+qtdPesquisado: ${qtdPesquisado}
     ''';
   }
 }

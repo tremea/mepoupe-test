@@ -173,10 +173,13 @@ class _ProcurarPageState extends State<ProcurarPage> {
                               padding: EdgeInsets.only(left: 30, right: 30),
                               child: ElevatedButton(
                                   onPressed: () {
+
                                     store.addItem(
                                         store.endereco!.cep.toString(),
                                         store.endereco!);
                                     store.getItem();
+
+
                                   },
                                   style: ButtonStyle(
                                       backgroundColor:
