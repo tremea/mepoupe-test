@@ -8,9 +8,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mepoupe_test/app/app_colors.dart';
 
 import 'package:mepoupe_test/app/modules/home/home_store.dart';
-import 'package:mepoupe_test/app/modules/home/models/local_storage_favorito.dart';
-import 'package:mepoupe_test/app/modules/home/widgets/widget_card_favorito.dart';
-import 'package:masked_text_field/masked_text_field.dart';
+
+
 
 import '../models/endereco.dart';
 import '../widgets/widget_title.dart';

@@ -15,38 +15,33 @@ part 'home_store.g.dart';
 class HomeStore = _HomeStoreBase with _$HomeStore;
 
 abstract class _HomeStoreBase with Store {
-
   late final HomeRepository _repository = HomeRepository();
 
   @observable
-  int selectedIndex=0;
+  int selectedIndex = 0;
 
   @action
   void setIndex(int value) {
     selectedIndex = value;
   }
+
   @observable
   bool isLoading = false;
 
-    @observable
-    Address? endereco;
+  @observable
+  Address? endereco;
 
-    @action
-    Future<void> getEndereco(String cep) async {
-
-
-      isLoading = true;
-       endereco =
-      await _repository.getEndereco(cep).asObservable() as Address;
-
-
-      isLoading = false;
-    }
+  @action
+  Future<void> getEndereco(String cep) async {
+    isLoading = true;
+    endereco = await _repository.getEndereco(cep).asObservable() as Address;
+    isLoading = false;
+  }
 
   final db = Hive.box('favoritos');
   final cepPesquisado = Hive.box('pesquisados');
 
-  void addItem(String cep, Address endereco){
+  void addItem(String cep, Address endereco) {
     db.put(cep, endereco.toJson());
   }
 
@@ -54,54 +49,36 @@ abstract class _HomeStoreBase with Store {
   ValueListenable? listaFavoritos;
   ValueListenable? listaPesquisados;
 
-  void removeItem(String cep){
+  void removeItem(String cep) {
     db.delete(cep);
   }
 
-
-  int getQtdFavoritos(){
-
+  int getQtdFavoritos() {
     return Hive.box('favoritos').length;
-
-
   }
 
   @observable
   int? qtdPesquisado;
 
-  int? getqtdPesquisado(){
-
+  int? getqtdPesquisado() {
     return Hive.box('pesquisados').length;
   }
 
-
-  void addPesquisado(Address endereco){
+  void addPesquisado(Address endereco) {
     log("add pesquisado");
     cepPesquisado.put(DateTime.now().toString(), endereco.toJson());
   }
 
-
-  void removeItemPesquisado(int index){
+  void removeItemPesquisado(int index) {
     cepPesquisado.deleteAt(index);
   }
 
-  void getItem(){
-
+  void getItem() {
     listaFavoritos = Hive.box('favoritos').listenable();
-    //box.values.toList().cast();
     Hive.box('favoritos').length;
-    print('>> ${Hive.box('favoritos').listenable()}');
-
   }
 
-  void getItemPesquisado(){
-
+  void getItemPesquisado() {
     listaPesquisados = Hive.box('pesquisados').listenable();
-
-
-
-
   }
-
-
 }
